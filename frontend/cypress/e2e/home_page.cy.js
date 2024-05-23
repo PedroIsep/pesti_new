@@ -15,7 +15,7 @@ describe('template spec', () => {
     cy.get('a').contains("Logout")
 
     // Label and button to choose image
-    cy.get('[style="text-align: center;"] > label').contains("Escolha uma imagem para a criação do mapa de saliências:")
+    cy.get('[style="text-align: center;"] > label').contains("Escolha uma imagem ou um video para a criação do mapa de saliências:")
     cy.get('[style="text-align: center;"] > button').contains("Escolher Imagem")
    
     // Label and button to choose method
