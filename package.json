@@ -4,6 +4,7 @@
     "cypress-file-upload": "^5.0.8"
   },
   "dependencies": {
+    "@cypress/react": "^8.0.1",
     "mysql": "^2.18.1",
     "sql-client": "^3.0.0"
   }

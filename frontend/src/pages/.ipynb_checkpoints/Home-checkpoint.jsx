@@ -112,9 +112,9 @@ function Home() {
             if (response.data.resultImage) {
                 setOutputImage(response.data.resultImage); // Set the output image with the result from the backend
             }
-        } catch (error) {
-            console.error('Error uploading the image:', error);
-        }
+            } catch (error) {
+                console.error('Error uploading the image:', error);
+            }
     }
 };
 
