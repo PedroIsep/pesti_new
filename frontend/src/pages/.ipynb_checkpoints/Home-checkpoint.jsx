@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import api from "../api";
 import Note from "../components/Note"
 import "../styles/Home.css"
@@ -19,6 +20,8 @@ function Home() {
     const [outputImage, setOutputImage] = useState(null); 
     const [showEmptyContainer, setShowEmptyContainer] = useState(false);
     const [videoUrl, setVideoUrl] = useState(null);
+    const [resultImage, setResultImage] = useState(null);
+
 
     useEffect(() => {
         getNotes();
@@ -90,9 +93,30 @@ function Home() {
         setShowDialog(true);
     };
 
-    const handleShowImage = () => {   
-        setShowEmptyContainer(true);
-      };
+    //Sending chosen image to the backend for processing
+    const handleShowImage = async () => {
+    setShowEmptyContainer(true);
+
+    if (selectedImage) {
+        const formData = new FormData();
+        formData.append('image', selectedImage);
+        formData.append('option', selectedOption);
+
+        try {
+            const response = await axios.post('http://localhost:8000/process-image/process-image/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            
+            if (response.data.resultImage) {
+                setOutputImage(response.data.resultImage); // Set the output image with the result from the backend
+            }
+        } catch (error) {
+            console.error('Error uploading the image:', error);
+        }
+    }
+};
 
     const handleCloseDialog = () => {
         setShowDialog(false);
@@ -206,6 +230,7 @@ function Home() {
                 onClose={handleCloseDialog}
                 onShowImage={handleShowImage}
                 showEmptyContainer={showEmptyContainer}
+                resultImage={resultImage}
                 />
             )}
         </div>
