@@ -140,13 +140,8 @@ if __name__ == "__main__":
     combined_img.paste(original_img, (0, 0))
     combined_img.paste(sal.convert('RGB'), (0, 0), sal)
 
-    # Save the final image
-    #combined_img.save('output_combo_img5_t2.jpg')
 
-    # Display the final image (optional)
-    #combined_img.show()
-    #sal = scipy.misc.imresize(res[0,:,:,0], (600, 800), interp='bicubic')
     plt.imshow(sal)
-    save_path = 'C:/Pedro/ISEP/PESTI/frontend/src/images/casnet2.jpg'
+    save_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
     plt.savefig(save_path)
 

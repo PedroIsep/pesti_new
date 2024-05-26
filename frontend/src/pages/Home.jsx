@@ -81,8 +81,9 @@ function Home() {
 
     //Confirming user's option
     const handlePrintInfo = () => {
-        if (!selectedImage) {
-            alert("Por favor selecione uma imagem.");
+        
+        if (!selectedImage && !videoUrl) {
+            alert("Por favor selecione uma imagem ou  um video.");
             return;
         }
         if (!selectedOption) {
@@ -103,7 +104,7 @@ function Home() {
         formData.append('option', selectedOption);
 
         try {
-            const response = await axios.post('http://localhost:8000/process-image/process-image/', formData, {
+            const response = await axios.post('http://localhost:8000/process/process-image/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
