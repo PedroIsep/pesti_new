@@ -33,13 +33,3 @@ class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
-
-
-
-class VideoSplit(generics.ListCreateAPIView):
-    queryset = User.objects.all()
-    
-    imgdir = './jpgs'
-    def extract_frames(imgdir):
-        if not os.path.exists(imgdir):
-            os.makedirs(imgdir)

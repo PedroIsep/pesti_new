@@ -27,6 +27,8 @@ function Home() {
         getNotes();
     }, []);
 
+    
+    //Get notes from database
     const getNotes = () => {
         api
             .get("/api/notes/")
@@ -38,6 +40,7 @@ function Home() {
             .catch((err) => alert(err));
     };
 
+    //Delete notes related to images
     const deleteNote = (id) => {
         api
             .delete(`/api/notes/delete/${id}/`)
@@ -49,6 +52,7 @@ function Home() {
             .catch((error) => alert(error));
     };
 
+    //Create notes related to images
     const createNote = (e) => {
         e.preventDefault();
         api
