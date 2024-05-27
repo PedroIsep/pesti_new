@@ -7,20 +7,20 @@ import isrcImage from "../images/isrc.jpg";
 import CustomDialog from "../components/CustomDialog";
 import casnet1Image from "../images/casnet1.jpg";
 import casnet2Image from "../images/casnet2.jpg";
+import createdVideo from "../images/created_video.mp4";
 
 function Home() {
     const [notes, setNotes] = useState([]);
-    const [maps, setMaps] = useState([]);
     const [content, setContent] = useState("");
-    const [title, setTitle] = useState("");
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedOption, setSelectedOption] = useState("");
     const [showDialog, setShowDialog] = useState(false);
     const [imageName, setImageName] = useState("");
     const [outputImage, setOutputImage] = useState(null); 
+    const [outputVideo, setOutputVideo] = useState(null);
     const [showEmptyContainer, setShowEmptyContainer] = useState(false);
     const [videoUrl, setVideoUrl] = useState(null);
-    const [resultImage, setResultImage] = useState(null);
+    const [user, setUser] = useState("");
 
 
     useEffect(() => {
@@ -42,8 +42,8 @@ function Home() {
         api
             .delete(`/api/notes/delete/${id}/`)
             .then((res) => {
-                if (res.status === 204) alert("Note deleted!");
-                else alert("Failed to delete note.");
+                if (res.status === 204) alert("Nota apagada!");
+                else alert("Falha ao apagar nota.");
                 getNotes();
             })
             .catch((error) => alert(error));
@@ -54,8 +54,8 @@ function Home() {
         api
             .post("/api/notes/", { content, imageURL: selectedImage.name, model: selectedOption })
             .then((res) => {
-                if (res.status === 201) alert("Note created!");
-                else alert("Failed to make note.");
+                if (res.status === 201) alert("Nota criada!");
+                else alert("Falha ao criar a nota.");
                 getNotes();
             })
             .catch((err) => alert(err));
@@ -65,16 +65,20 @@ function Home() {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         setSelectedImage(file);
+        setVideoUrl(null); 
     };
 
+    //Handling video upload from the user's computer
     const handleVideoUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
             const videoUrl = URL.createObjectURL(file);
             setVideoUrl(videoUrl); // Update the state with the video URL
+            setSelectedImage(null);
         }
     };
 
+     //Handling method choice from user
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value);
     };
@@ -83,7 +87,7 @@ function Home() {
     const handlePrintInfo = () => {
         
         if (!selectedImage && !videoUrl) {
-            alert("Por favor selecione uma imagem ou  um video.");
+            alert("Por favor selecione uma imagem ou um video.");
             return;
         }
         if (!selectedOption) {
@@ -94,31 +98,41 @@ function Home() {
         setShowDialog(true);
     };
 
-    //Sending chosen image to the backend for processing
-    const handleShowImage = async () => {
-    setShowEmptyContainer(true);
-
-    if (selectedImage) {
-        const formData = new FormData();
-        formData.append('image', selectedImage);
-        formData.append('option', selectedOption);
+    //Sending chosen image or video to the backend for processing
+    const handleShowMedia = async () => {
+        setShowEmptyContainer(true);
 
         try {
-            const response = await axios.post('http://localhost:8000/process/process-image/', formData, {
+            const formData = new FormData();
+            if (selectedImage) {
+                formData.append('image', selectedImage);
+            } else if (videoUrl) {
+                const response = await fetch(videoUrl);
+                const blob = await response.blob();
+                formData.append('video', new File([blob], 'video.mp4', { type: 'video/mp4' }));
+            }
+            formData.append('option', selectedOption);
+
+            const endpoint = selectedImage ? 'process-image' : 'process-video';
+
+            const response = await axios.post(`http://localhost:8000/process/${endpoint}/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            
+
             if (response.data.resultImage) {
                 setOutputImage(response.data.resultImage); // Set the output image with the result from the backend
             }
-            } catch (error) {
-                console.error('Error uploading the image:', error);
+            if (response.data.videoUrl) {
+                setVideoUrl(response.data.videoUrl); // Set the processed video URL from the backend
             }
-    }
-};
+        } catch (error) {
+            console.error('Error uploading the media:', error);
+        }
+    };
 
+    //closing show dialog popup box
     const handleCloseDialog = () => {
         setShowDialog(false);
       };
@@ -131,13 +145,19 @@ function Home() {
         if (selectedOption) {
             if (selectedOption === "casnet1") {
                 setOutputImage(casnet1Image);
+                setOutputVideo(null);
             } else if (selectedOption === "casnet2") {
                 setOutputImage(casnet2Image);
+                setOutputVideo(null);
+            } else if (videoUrl){
+                setOutputVideo(createdVideo);
+                setOutputImage(null);
             }
         } else {
             setOutputImage(null);
+            setOutputVideo(null);
         }
-    }, [selectedImage, selectedOption]);
+    }, [selectedOption, videoUrl]);
 
     return (
         <div>
@@ -154,7 +174,8 @@ function Home() {
                     type="file" 
                     id="imageInput" 
                     style={{ margin: "0 auto", display: "none" }} 
-                    onChange={handleImageUpload} /> {}
+                    onChange={handleImageUpload} 
+                    accept="image/*" />
                 <button onClick={() => document.getElementById("imageInput").click()} >Escolher Imagem</button> {}
                 <input
                     type="file"
@@ -194,6 +215,11 @@ function Home() {
                 {outputImage && showEmptyContainer && (
                     <img src={outputImage} alt="Output Image" style={{ maxWidth: "100%" }} />
                 )}
+                {outputVideo && showEmptyContainer && (
+                    <video controls style={{ maxWidth: "100%" }}>
+                        <source src={outputVideo} type="video/mp4" />
+                    </video>
+                )}
             </div>
 
             <div className="break"></div> 
@@ -205,14 +231,14 @@ function Home() {
             <div style={{ borderBottom: "4px solid black", margin: "20px auto", width: "90%" }}></div>
             
             <div>
-                <h2>Notes</h2>
+                <h2>Notas</h2>
                 {notes.map((note) => (
                     <Note note={note} onDelete={deleteNote} key={note.id} />
                 ))}
             </div>
-            <h2>Create a Note</h2>
+            <h2>Criar uma Nota</h2>
             <form onSubmit={createNote}>
-                <label htmlFor="content">Content:</label>
+                <label htmlFor="content">Conteudo:</label>
                 <br />
                 <textarea
                     id="content"
@@ -227,11 +253,10 @@ function Home() {
 
             {showDialog && (
                 <CustomDialog
-                message={`O método selecionado foi: ${selectedOption}\n   ||| A imagem selecionada foi: ${selectedImage.name}`}
+                message={`Tem a certeza que pretende criar o mapa de saliências?`}
                 onClose={handleCloseDialog}
-                onShowImage={handleShowImage}
+                onShowImage={handleShowMedia}
                 showEmptyContainer={showEmptyContainer}
-                resultImage={resultImage}
                 />
             )}
         </div>

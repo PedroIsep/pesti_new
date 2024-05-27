@@ -1,13 +1,14 @@
 import os
 from PIL import Image
 import cv2
+import sys
 
 # Get the current working directory
 current_path = os.getcwd()
 
 
 # Folder containing images
-img_dir = './jpgs'
+img_dir = './processed_frames'
 
 def compute_average_dimensions(folder):
     """Compute average width and height of all images in the specified folder."""
@@ -45,7 +46,7 @@ def create_video_from_images(folder):
     first_image = cv2.imread(os.path.join(folder, valid_images[0]))
     h, w, _ = first_image.shape
 
-    codec = cv2.VideoWriter_fourcc(*'mp4v')
+    codec = cv2.VideoWriter_fourcc(*'avc1')
     vid_writer = cv2.VideoWriter(video_filename, codec, 30, (w, h))
 
     for img in valid_images:
@@ -78,11 +79,7 @@ def display_video_from_images(folder):
     vid_reader.release()
     cv2.destroyAllWindows()
 
-# Calculate average dimensions of images
-#avg_width, avg_height = compute_average_dimensions(img_dir)
-# Resize images to average dimensions
-#qresize_images_to_average(img_dir, avg_width, avg_height)
-# Create video from resized images
-create_video_from_images(img_dir)
-# Display the video as output
-#display_video_from_images(img_dir)
+    
+if __name__ == "__main__":
+    img_dir = sys.argv[1]
+    create_video_from_images(img_dir)

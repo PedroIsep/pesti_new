@@ -77,6 +77,7 @@ def process_video(request):
         # Define the paths to the Python scripts
         split_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/split.py'
         process_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet2code.py'
+        create_video_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/create_video.py'
 
         # Verify the paths
         if not os.path.exists(video_path):
@@ -92,10 +93,10 @@ def process_video(request):
                 ['python', split_script_path, video_path, frames_dir],
                 check=True,
                 capture_output=True,
-                text=True  # Capture stdout and stderr as strings
+                text=True 
             )
             
-            
+            # start incremental number for output images
             number =1
             
              # Process each frame image
@@ -106,19 +107,29 @@ def process_video(request):
                     ['python', process_script_path, frame_path],
                     check=True,
                     capture_output=True,
-                    text=True  # Capture stdout and stderr as strings
+                    text=True 
                 )
                             
                 # copy output image to final folder
                 output_image = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
-                output_path = f'C:/Pedro/ISEP/PESTI/backend/casnet/processed_frames/{number}.jpg'
+                output_path = f'C:/Pedro/ISEP/PESTI/backend/casnet/processed_frames/{str(number).zfill(2)}.jpg'
                 shutil.copy(output_image, output_path)
                 number+=1;
                 
             # Clean up temporary files
             os.remove(video_path)
-            #shutil.rmtree(frames_dir)
-
+            
+            #create video from output images
+            subprocess.run(
+                ['python', create_video_script_path, processed_frames_dir],
+                check=True,
+                capture_output=True,
+                text=True 
+            )
+            
+            # Copy video to final destination
+            shutil.copy('created_video.mp4', 'C:/Pedro/ISEP/PESTI/frontend/src/images/created_video.mp4')
+            
             return JsonResponse({'success': True})
 
         except subprocess.CalledProcessError as e:
