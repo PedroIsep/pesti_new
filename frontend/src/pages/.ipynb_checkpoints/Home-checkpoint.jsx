@@ -20,7 +20,6 @@ function Home() {
     const [outputVideo, setOutputVideo] = useState(null);
     const [showEmptyContainer, setShowEmptyContainer] = useState(false);
     const [videoUrl, setVideoUrl] = useState(null);
-    const [user, setUser] = useState("");
 
 
     useEffect(() => {
