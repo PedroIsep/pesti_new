@@ -1,6 +1,6 @@
 describe('template spec', () => {
   it('passes', () => {
-    cy.visit('https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/login')
+    cy.visit('localhost:5173/login')
       
     cy.get('img')
 
@@ -12,9 +12,9 @@ describe('template spec', () => {
     cy.get('form').submit()
     
     // Logout button
-    cy.get('a').contains("Logout")
+    cy.get('a').contains("Logout").click()
 
-
+    cy.url().should('include', 'localhost:5173/login')
   })
 })
   
