@@ -1,6 +1,6 @@
 describe('template spec', () => {
   it('passes', () => {
-    cy.visit('localhost:5173/register')
+    cy.visit('https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/register')
     
     // Confirm that the image is loaded
     cy.get('img').should('be.visible')
@@ -13,6 +13,6 @@ describe('template spec', () => {
     cy.get('form').submit()
 
     // Verify that the user is redirected to the login page
-    cy.url().should('include', 'localhost:5173')
+    cy.url().should('include', 'e1-eu-north-azure.choreoapps.dev')
   })
 })
