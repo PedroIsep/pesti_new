@@ -1,6 +1,6 @@
 describe('template spec', () => {
   it('passes', () => {
-    cy.visit('localhost:5173/login')
+    cy.visit('https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/login')
       
     cy.get('img')
 
@@ -36,7 +36,7 @@ describe('template spec', () => {
     //Check pop-up for map creation
     cy.get('.custom-dialog')
     cy.get('.custom-dialog > h2').contains("Aplicação para uso de Modelos de Atenção")
-    cy.get('p').contains("O método selecionado foi: casnet1 ||| A imagem selecionada foi: ambulancia.jpg")
+    cy.get('p').contains("Tem a certeza que pretende criar o mapa de saliências?")
     cy.get('.button-container > :nth-child(1)').contains("Criar mapa de saliências")
     cy.get('.button-container > :nth-child(2)').contains("Cancelar")
 

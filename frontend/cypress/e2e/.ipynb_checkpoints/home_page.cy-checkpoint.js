@@ -1,6 +1,6 @@
 describe('template spec', () => {
   it('passes', () => {
-    cy.visit('localhost:5173/login')
+    cy.visit('https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/login')
       
     cy.get('img')
 
@@ -35,12 +35,12 @@ describe('template spec', () => {
     cy.get('[style="border-bottom: 4px solid black; margin: 20px auto; width: 90%;"]')
 
     //Check labels for notes
-    cy.get(':nth-child(12) > h2').contains("Notes")
-    cy.get(':nth-child(13)').contains("Create a Note")
+    cy.get(':nth-child(12) > h2').contains("Notas")
+    cy.get(':nth-child(13)').contains("Criar uma Nota")
 
     //CHeck form to insert note
     cy.get('form')
-    cy.get('form > label').contains("Content:")
+    cy.get('form > label').contains("Conteudo:")
     cy.get('#content')
 
     //Button to submit note
