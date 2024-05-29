@@ -5,8 +5,7 @@ import Note from "../components/Note"
 import "../styles/Home.css"
 import isrcImage from "../images/isrc.jpg";
 import CustomDialog from "../components/CustomDialog";
-import casnet1Image from "../images/casnet1.jpg";
-import casnet2Image from "../images/casnet2.jpg";
+import casnetImage from "../images/created_image.jpg";
 import createdVideo from "../images/created_video.mp4";
 
 function Home() {
@@ -123,15 +122,20 @@ function Home() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
-            if (response.data.resultImage) {
-                setOutputImage(response.data.resultImage); // Set the output image with the result from the backend
-            }
-            if (response.data.videoUrl) {
-                setVideoUrl(response.data.videoUrl); // Set the processed video URL from the backend
+            
+            if (response.status == 200){
+                if (endpoint == 'process-image'){
+                    setOutputVideo(null);
+                    setOutputImage(casnetImage);
+                if (endpoint == 'process-video'){
+                    setOutputImage(null);
+                    setOutputVideo(created_video); 
+                }
             }
         } catch (error) {
             console.error('Error uploading the media:', error);
+            setOutputImage(null);
+            setOutputVideo(null);
         }
     };
 
@@ -144,22 +148,6 @@ function Home() {
     useEffect(() => {
         const imageName = selectedImage && selectedOption ? `${selectedImage.name.split('.')[0]}${selectedOption}.jpg` : "";
         setImageName(imageName);
-
-        if (selectedOption) {
-            if (selectedOption === "casnet1") {
-                setOutputImage(casnet1Image);
-                setOutputVideo(null);
-            } else if (selectedOption === "casnet2") {
-                setOutputImage(casnet2Image);
-                setOutputVideo(null);
-            } else if (videoUrl){
-                setOutputVideo(createdVideo);
-                setOutputImage(null);
-            }
-        } else {
-            setOutputImage(null);
-            setOutputVideo(null);
-        }
     }, [selectedOption, videoUrl]);
 
     return (
@@ -167,7 +155,7 @@ function Home() {
             <img src={isrcImage} alt="ISRC logo" ></img>
             
             <div style={{ textAlign: "right" }}>
-                <a href="http://localhost:5173/logout">Logout</a>
+                <a href="https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/logout">Logout</a>
             </div>
 
             <div style={{ textAlign: "center" }}>
