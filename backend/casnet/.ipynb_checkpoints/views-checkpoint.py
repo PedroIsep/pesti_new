@@ -38,7 +38,7 @@ def process_image(request):
 
             # copy output image to final folder
             output_image = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
-            output_path = 'https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/assets/created_image.jpg'
+            output_path = 'C:/Pedro/ISEP/PESTI/frontend/src/assets/created_image.jpg'
             shutil.copy(output_image, output_path)
 
             # Delete the temporary files
