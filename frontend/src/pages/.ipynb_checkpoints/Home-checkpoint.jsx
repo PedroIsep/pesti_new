@@ -19,6 +19,7 @@ function Home() {
     const [outputVideo, setOutputVideo] = useState(null);
     const [showEmptyContainer, setShowEmptyContainer] = useState(false);
     const [videoUrl, setVideoUrl] = useState(null);
+    const [backendEnd, setbackendEnd] = useState(false);
 
 
     useEffect(() => {
@@ -123,11 +124,8 @@ function Home() {
                 }
             });
             
-            if (response.data.resultImage) {
-                setOutputImage(response.data.resultImage); // Set the output image with the result from the backend
-            }
-            if (response.data.videoUrl) {
-                setVideoUrl(response.data.videoUrl); // Set the processed video URL from the backend
+            if (response.status === 200){
+                setbackendEnd(true);
             }
         } catch (error) {
             console.error('Error uploading the media:', error);
@@ -145,15 +143,12 @@ function Home() {
     useEffect(() => {
         const imageName = selectedImage && selectedOption ? `${selectedImage.name.split('.')[0]}${selectedOption}.jpg` : "";
         setImageName(imageName);
-        
-        if (selectedOption) {
-            if (selectedOption === "casnet1") {
+    
+        if (backendEnd) {
+            if (imageName) {
                 setOutputImage(casnetImage);
                 setOutputVideo(null);
-            } else if (selectedOption === "casnet2") {
-                setOutputImage(casnetImage);
-                setOutputVideo(null);
-            } else if (videoUrl){
+            } else if (videoUrl) {
                 setOutputVideo(createdVideo);
                 setOutputImage(null);
             }
@@ -161,7 +156,9 @@ function Home() {
             setOutputImage(null);
             setOutputVideo(null);
         }
-    }, [selectedOption, videoUrl]);
+        
+        
+    }, [backendEnd, selectedOption, videoUrl]);
 
     return (
         <div>
