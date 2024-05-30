@@ -5,8 +5,8 @@ import Note from "../components/Note"
 import "../styles/Home.css"
 import isrcImage from "../images/isrc.jpg";
 import CustomDialog from "../components/CustomDialog";
-import casnetImage from "../images/created_image.jpg";
-import createdVideo from "../images/created_video.mp4";
+import casnetImage from "../assets/created_image.jpg";
+import createdVideo from "../assets/created_video.mp4";
 
 function Home() {
     const [notes, setNotes] = useState([]);
@@ -123,14 +123,11 @@ function Home() {
                 }
             });
             
-            if (response.status == 200){
-                if (endpoint == 'process-image'){
-                    setOutputVideo(null);
-                    setOutputImage(casnetImage);
-                if (endpoint == 'process-video'){
-                    setOutputImage(null);
-                    setOutputVideo(created_video); 
-                }
+            if (response.data.resultImage) {
+                setOutputImage(response.data.resultImage); // Set the output image with the result from the backend
+            }
+            if (response.data.videoUrl) {
+                setVideoUrl(response.data.videoUrl); // Set the processed video URL from the backend
             }
         } catch (error) {
             console.error('Error uploading the media:', error);
@@ -148,6 +145,22 @@ function Home() {
     useEffect(() => {
         const imageName = selectedImage && selectedOption ? `${selectedImage.name.split('.')[0]}${selectedOption}.jpg` : "";
         setImageName(imageName);
+        
+        if (selectedOption) {
+            if (selectedOption === "casnet1") {
+                setOutputImage(casnetImage);
+                setOutputVideo(null);
+            } else if (selectedOption === "casnet2") {
+                setOutputImage(casnetImage);
+                setOutputVideo(null);
+            } else if (videoUrl){
+                setOutputVideo(createdVideo);
+                setOutputImage(null);
+            }
+        } else {
+            setOutputImage(null);
+            setOutputVideo(null);
+        }
     }, [selectedOption, videoUrl]);
 
     return (
@@ -204,7 +217,7 @@ function Home() {
 
             <div id="emptyContainer" className="container">
                 {outputImage && showEmptyContainer && (
-                    <img src={outputImage} alt="Output Image" style={{ maxWidth: "100%" }} />
+                    <img src={casnetImage} alt="Output Image" style={{ maxWidth: "100%" }} />
                 )}
                 {outputVideo && showEmptyContainer && (
                     <video controls style={{ maxWidth: "100%" }}>
