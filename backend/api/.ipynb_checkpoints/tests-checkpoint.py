@@ -19,7 +19,15 @@ class CreateUserViewTest_CreatedUserOK(APITestCase):
         response = self.client.post(url, data, format='json')
         
         # Assert that the response status is 201 Created
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        try:
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
+        
 
 class CreateUserViewTest_CreatedUserNOK(APITestCase):
     def test_create_user(self):
@@ -32,9 +40,15 @@ class CreateUserViewTest_CreatedUserNOK(APITestCase):
         # Make a POST request to the CreateUserView
         response = self.client.post(url, data, format='json')
         
-        # Assert that the response status is 200 OK
-        self.assertNotEqual(response.status_code, status.HTTP_200_OK)
-        
+        # Assert that the response status is 200 OK   
+        try:
+            self.assertNotEqual(response.status_code, status.HTTP_200_OK)
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
         
 
 class CreateUserViewTest_PassOK(APITestCase):
@@ -50,9 +64,16 @@ class CreateUserViewTest_PassOK(APITestCase):
         
         # Assert that the password was set correctly
         user = User.objects.get(username='testuser')
-        self.assertTrue(user.check_password('testpassword123'))
+        try:
+            self.assertTrue(user.check_password('testpassword123'))
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
 
-
+        
 class CreateUserViewTest_PassNOK(APITestCase):
     def test_create_user(self):
         url = reverse('register')
@@ -65,8 +86,15 @@ class CreateUserViewTest_PassNOK(APITestCase):
         self.client.post(url, data, format='json')
         
         # Assert that the password was set correctly
-        user = User.objects.get(username='testuser')
-        self.assertFalse(user.check_password('testpassword12'))
+        user = User.objects.get(username='testuser')     
+        try:
+            self.assertFalse(user.check_password('testpassword12'))
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
 
 class CreateUserViewTest_UserOK(APITestCase):
     def test_create_user(self):
@@ -80,9 +108,15 @@ class CreateUserViewTest_UserOK(APITestCase):
         self.client.post(url, data, format='json')
         
         # Assert that the password was set correctly
-        user = User.objects.get(username='testuser')
-        self.assertTrue(user, self)
-        
+        user = User.objects.get(username='testuser') 
+        try:
+            self.assertTrue(user, self)
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
                 
         
 class NoteModelTest_ContentOK(TestCase):
@@ -101,8 +135,14 @@ class NoteModelTest_ContentOK(TestCase):
         retrieved_note = Note.objects.get(id=note.id)
         
         # Assert that the note's fields are correct
-        self.assertEqual(retrieved_note.content, "This is a test note")
-       
+        try:
+            self.assertEqual(retrieved_note.content, "This is a test note")
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
        
        
 class NoteModelTest_UrlOK(TestCase):
@@ -121,7 +161,14 @@ class NoteModelTest_UrlOK(TestCase):
         retrieved_note = Note.objects.get(id=note.id)
         
         # Assert that the note's fields are correct
-        self.assertEqual(retrieved_note.imageURL, "http://example.com/image.jpg")
+        try:
+            self.assertEqual(retrieved_note.imageURL, "http://example.com/image.jpg")
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
  
  
  
@@ -141,8 +188,14 @@ class NoteModelTest_ModelOK(TestCase):
         retrieved_note = Note.objects.get(id=note.id)
         
         # Assert that the note's fields are correct
-        self.assertEqual(retrieved_note.model, "TestModel")
-
+        try:
+            self.assertEqual(retrieved_note.model, "TestModel")
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
 
 
 class NoteModelTest_AuthorOK(TestCase):
@@ -161,8 +214,14 @@ class NoteModelTest_AuthorOK(TestCase):
         retrieved_note = Note.objects.get(id=note.id)
         
         # Assert that the note's fields are correct
-        self.assertEqual(retrieved_note.author, self.user)
-        
+        try:
+            self.assertEqual(retrieved_note.author, self.user)
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
 
 class NoteModelTest_ContentNOK(TestCase):
     def setUp(self):
@@ -177,8 +236,14 @@ class NoteModelTest_ContentNOK(TestCase):
         )
         
         # Assert that the __str__ method returns the first 50 characters of the content
-        self.assertEqual(str(note.content[:50]), "This is a test note with a long content to test th")
-
+        try:
+            self.assertEqual(str(note.content[:50]), "This is a test note with a long content to test th")
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
 
 
 class NoteModelTest_ModelNOK(TestCase):
@@ -197,8 +262,14 @@ class NoteModelTest_ModelNOK(TestCase):
         retrieved_note = Note.objects.get(id=note.id)
         
         # Assert that the note's fields are correct
-        self.assertNotEqual(retrieved_note.model, "TestModel1")
-        
+        try:
+            self.assertNotEqual(retrieved_note.model, "TestModel1")
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")
 
 
 class NoteModelTest_AuthorNOK(TestCase):
@@ -218,4 +289,11 @@ class NoteModelTest_AuthorNOK(TestCase):
         retrieved_note = Note.objects.get(id=note.id)
         
         # Assert that the note's fields are correct
-        self.assertNotEqual(retrieved_note.author, self.user1)
+        try:
+            self.assertNotEqual(retrieved_note.author, self.user1)
+            self.test_result = 'PASS'
+        except AssertionError as e:
+            self.test_result = 'FAIL'
+            raise e
+            
+        print(f"{self.__class__.__name__}: {self.test_result}")

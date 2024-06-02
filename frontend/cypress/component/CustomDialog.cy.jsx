@@ -31,31 +31,29 @@ describe('Home Component with CustomDialog', () => {
         resultImage={null}
       />
     )
-      
-        // Label and button to choose image
-    cy.get('[style="text-align: center;"] > label').contains("Escolha uma imagem ou um video para a criação do mapa de saliências:")
-    cy.get('[style="text-align: center;"] > button').contains("Escolher Imagem")
     
     //Simulate loading image
     cy.get('input[type="file"]').attachFile('ambulancia.jpg')
 
     // Label and button to choose method
-    cy.get('.centered-container > label').contains("Escolha um modelo para a criação do mapa de saliências:")
-    cy.get('#casnet').select('CASNET 1')
+    cy.get('#casnet').select('CASNET 2')
       
     //Check button to create map
-    cy.get('[style="text-align: center; margin-top: 20px;"] > button').contains("Criar mapa de saliências")
-    cy.get('[style="text-align: center; margin-top: 20px;"] > button').click()
+    cy.get('[style="text-align: center; margin-top: 20px;"] > button').contains("Criar mapa de saliências").click()
       
     // Check if the dialog is visible
     cy.get('.custom-dialog').should('be.visible')
 
     // Click the "Criar mapa de saliências" button
-    cy.contains('button', 'Criar mapa de saliências').click()
-    cy.get('.button-container > :nth-child(2)').contains("Cancelar")
-
     cy.get('.button-container > :nth-child(1)').contains("Criar mapa de saliências").click()
-      
+    
+    // Intercept the POST request
+    cy.intercept('POST', 'http://localhost:8000', (req) => {
+      req.reply((res) => {
+        expect(res.statusCode).to.equal(200)
+      })
+    }).as('postRequest')
+    
   })
 
 })

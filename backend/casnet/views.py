@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 import subprocess
-import os
+import os, sys
 import shutil
 
 @csrf_exempt
@@ -20,6 +20,7 @@ def process_image(request):
 
         # Define the path to the Python script
         script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet2code.py'
+  
         
         # Verify the paths
         if not os.path.exists(image_path):

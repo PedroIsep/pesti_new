@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 import subprocess
-import os
+import os, sys
 import shutil
 
 @csrf_exempt
@@ -18,8 +18,15 @@ def process_image(request):
             for chunk in image.chunks():
                 destination.write(chunk)
 
+        print(option);
         # Define the path to the Python script
-        script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet2code.py'
+        if option == 'casnet1':
+            script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet1code.py'
+        elif option == 'casnet2':
+            script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet2code.py'
+        else:
+            return JsonResponse({'error': 'Invalid option selected'}, status=400)
+  
         
         # Verify the paths
         if not os.path.exists(image_path):
