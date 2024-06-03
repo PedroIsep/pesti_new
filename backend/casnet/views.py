@@ -45,7 +45,9 @@ def process_image(request):
             # copy output image to final folder
             output_image = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
             output_path = 'C:/Pedro/ISEP/PESTI/frontend/src/images/created_image.jpg'
+            output_path2 = 'C:/Pedro/ISEP/PESTI/frontend/src/assets/created_image.jpg'
             shutil.copy(output_image, output_path)
+            shutil.copy(output_image, output_path2)
 
             # Delete the temporary files
             os.remove(image_path)
@@ -135,6 +137,7 @@ def process_video(request):
             
             # Copy video to final destination
             shutil.copy('created_video.mp4', 'C:/Pedro/ISEP/PESTI/frontend/src/images/created_video.mp4')
+            shutil.copy('created_video.mp4', 'C:/Pedro/ISEP/PESTI/frontend/src/assets/created_video.mp4')
             
             return JsonResponse({'success': True})
 
