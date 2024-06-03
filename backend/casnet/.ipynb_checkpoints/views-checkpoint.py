@@ -34,7 +34,7 @@ def process_image(request):
 
         # Execute the Python script
         try:
-            print("cehgeui aqui");
+            
             result = subprocess.run(
                 ['python', script_path, image_path],
                 check=True,

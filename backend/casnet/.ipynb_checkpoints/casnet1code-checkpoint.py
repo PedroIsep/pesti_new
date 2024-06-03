@@ -1,11 +1,16 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[12]:
+
+
 import os
-import sys
-import logging
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID" 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import glob
 import numpy as np
 import scipy.misc
+
 import tensorflow.keras
 import tensorflow.keras.callbacks
 import tensorflow.keras.backend as K
@@ -15,18 +20,22 @@ from tensorflow.keras.applications.vgg16 import VGG16
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.vgg16 import preprocess_input
 from tensorflow.keras.layers import Input, Layer, Dense, Concatenate,Lambda, Conv2D, MaxPooling2D, Flatten, Multiply
+
 from tensorflow.keras.models import Model
 from collections import OrderedDict
 from tqdm import trange, tqdm
+
 import tensorflow as tf
 from tensorflow import image as tfi
-#import pandas as pd
-import matplotlib.pyplot as plt
 
+import matplotlib.pyplot as plt
 from PIL import Image
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+
+# # - Utils
+
+# In[13]:
+
 
 def get_image_data(img_path, image_size, space='rgb'):
     if space=='rgb':
@@ -81,28 +90,33 @@ def create_weighted_model():
     
     return new_model
 
-# Main execution
-if __name__ == "__main__":  
-    # Load the model
-    logger.info("Creating the model...")
-    model = create_weighted_model()
-    
-    model.load_weights('salicon_generator_sigmoid_epoch_25.h5')
-    
-  
-    # Get the image path from command-line arguments
-    if len(sys.argv) < 2:
-        print("Usage: python script.py <image_path>")
-        sys.exit(1)
-    
-    img = sys.argv[1]
-    original_img = Image.open(img)
 
-    x1 = np.expand_dims(get_image_data(img, (600, 800), space="rgb"), axis=0)
-    x2 = np.expand_dims(get_image_data(img, (300, 400), space="rgb"), axis=0)
-    res = model.predict([x1, x2])
-    sal = Image.fromarray(np.uint8(res[0, :, :, 0] * 255), mode='L').resize((600, 800), Image.BICUBIC)
+# # - Testing
 
-    plt.imshow(sal)
-    save_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
-    plt.savefig(save_path)
+# In[14]:
+
+
+model = create_weighted_model()
+model.load_weights('salicon_generator_sigmoid_epoch_25.h5')
+#model.summary()
+
+
+# In[15]:
+
+
+img = '00000.jpg'
+x1 = np.expand_dims(get_image_data(img, (600, 800), space="rgb"), axis=0)
+x2 = np.expand_dims(get_image_data(img, (300, 400), space="rgb"), axis=0)
+res = model.predict([x1, x2])
+sal = Image.fromarray(np.uint8(res[0, :, :, 0] * 255), mode='L').resize((600, 800), Image.BICUBIC)
+#sal.save('output_img5.png')
+#sal = scipy.misc.imresize(res[0,:,:,0], (600, 800), interp='bicubic')
+plt.imshow(sal)
+#plt.savefig('output_cores_img5.png')
+save_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
+plt.savefig(save_path)
+
+
+
+
+

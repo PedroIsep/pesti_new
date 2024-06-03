@@ -127,7 +127,7 @@ if __name__ == "__main__":
         print("Usage: python script.py <image_path>")
         sys.exit(1)
     
-    img_path = sys.argv[1]
+    img_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/00000.jpg'
     original_img = Image.open(img_path)
     
     x1 = np.expand_dims(get_image_data(img_path, (480, 640), space="rgb"), axis=0)
