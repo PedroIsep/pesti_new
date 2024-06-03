@@ -18,9 +18,13 @@ def process_image(request):
             for chunk in image.chunks():
                 destination.write(chunk)
 
-        # Define the path to the Python script
-        script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet2code.py'
-  
+        # Define the path to the Python script based on the selected option
+        if option == 'casnet1':
+            script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet1code.py'
+        elif option == 'casnet2':
+            script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet2code.py'
+        else:
+            return JsonResponse({'error': 'Invalid option'}, status=400)
         
         # Verify the paths
         if not os.path.exists(image_path):
@@ -30,6 +34,7 @@ def process_image(request):
 
         # Execute the Python script
         try:
+            print("cehgeui aqui");
             result = subprocess.run(
                 ['python', script_path, image_path],
                 check=True,

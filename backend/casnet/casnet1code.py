@@ -1,5 +1,6 @@
 import os
 import sys
+import logging
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID" 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import glob
@@ -19,12 +20,12 @@ from collections import OrderedDict
 from tqdm import trange, tqdm
 import tensorflow as tf
 from tensorflow import image as tfi
-#import pandas as pd
 import matplotlib.pyplot as plt
 
 from PIL import Image
 
-
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 def get_image_data(img_path, image_size, space='rgb'):
     if space=='rgb':
@@ -80,11 +81,14 @@ def create_weighted_model():
     return new_model
 
 # Main execution
-if __name__ == "__main__":
+if __name__ == "__main__":  
     # Load the model
+    logger.info("Creating the model...")
     model = create_weighted_model()
+    
     model.load_weights('salicon_generator_sigmoid_epoch_25.h5')
     
+  
     # Get the image path from command-line arguments
     if len(sys.argv) < 2:
         print("Usage: python script.py <image_path>")
@@ -99,5 +103,5 @@ if __name__ == "__main__":
     sal = Image.fromarray(np.uint8(res[0, :, :, 0] * 255), mode='L').resize((600, 800), Image.BICUBIC)
 
     plt.imshow(sal)
-    save_path = 'C:/Pedro/ISEP/PESTI/frontend/src/images/casnet.jpg'
+    save_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
     plt.savefig(save_path)
