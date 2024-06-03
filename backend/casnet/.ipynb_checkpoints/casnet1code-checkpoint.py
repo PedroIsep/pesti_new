@@ -97,14 +97,14 @@ def create_weighted_model():
 
 
 model = create_weighted_model()
-model.load_weights('salicon_generator_sigmoid_epoch_25.h5')
+model.load_weights('C:/Pedro/ISEP/PESTI/backend/casnet/salicon_generator_sigmoid_epoch_25.h5')
 #model.summary()
 
 
 # In[15]:
 
 
-img = '00000.jpg'
+img = 'C:/Pedro/ISEP/PESTI/backend/casnet/00000.jpg'
 x1 = np.expand_dims(get_image_data(img, (600, 800), space="rgb"), axis=0)
 x2 = np.expand_dims(get_image_data(img, (300, 400), space="rgb"), axis=0)
 res = model.predict([x1, x2])
