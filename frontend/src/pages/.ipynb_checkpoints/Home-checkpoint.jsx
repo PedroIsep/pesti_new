@@ -5,8 +5,8 @@ import Note from "../components/Note"
 import "../styles/Home.css"
 import isrcImage from "../images/isrc.jpg";
 import CustomDialog from "../components/CustomDialog";
-import casnetImage from "../assets/created_image.jpg";
-import createdVideo from "../assets/created_video.mp4";
+import casnetImage from "../images/created_image.jpg";
+import createdVideo from "../images/created_video.mp4";
 
 function Home() {
     const [notes, setNotes] = useState([]);
