@@ -1,4 +1,4 @@
-describe('template spec', () => {
+describe('Criacao de mapa de saliencias sem nota', () => {
   it('passes', () => {
     cy.visit('https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/login')
       

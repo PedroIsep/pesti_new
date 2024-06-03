@@ -5,7 +5,6 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import glob
 import numpy as np
 import scipy.misc
-
 import tensorflow.keras
 import tensorflow.keras.callbacks
 import tensorflow.keras.backend as K
@@ -15,14 +14,17 @@ from tensorflow.keras.applications.vgg16 import VGG16
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.vgg16 import preprocess_input
 from tensorflow.keras.layers import Input, Layer, Dense, Concatenate,Lambda, Conv2D, MaxPooling2D, Flatten, Multiply
-
 from tensorflow.keras.models import Model
 from collections import OrderedDict
 from tqdm import trange, tqdm
 import tensorflow as tf
 from tensorflow import image as tfi
+#import pandas as pd
 import matplotlib.pyplot as plt
+
 from PIL import Image
+
+
 
 def get_image_data(img_path, image_size, space='rgb'):
     if space=='rgb':
@@ -77,28 +79,25 @@ def create_weighted_model():
     
     return new_model
 
-
 # Main execution
 if __name__ == "__main__":
+    # Load the model
     model = create_weighted_model()
     model.load_weights('salicon_generator_sigmoid_epoch_25.h5')
-
-
-# Get the image path from command-line arguments
+    
+    # Get the image path from command-line arguments
     if len(sys.argv) < 2:
         print("Usage: python script.py <image_path>")
         sys.exit(1)
     
-    img_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/00000.jpg'
-    original_img = Image.open(img_path)
-    
-    
-    x1 = np.expand_dims(get_image_data(img_path, (480, 640), space="rgb"), axis=0)
-    x2 = np.expand_dims(get_image_data(img_path, (300, 400), space="rgb"), axis=0)
-    res = model.predict([x1, x2])
-    sal = Image.fromarray(np.uint8(res[0, :, :, 0] * 255), mode='L').resize(original_img.size, Image.BICUBIC)
+    img = sys.argv[1]
+    original_img = Image.open(img)
 
-    
+    x1 = np.expand_dims(get_image_data(img, (600, 800), space="rgb"), axis=0)
+    x2 = np.expand_dims(get_image_data(img, (300, 400), space="rgb"), axis=0)
+    res = model.predict([x1, x2])
+    sal = Image.fromarray(np.uint8(res[0, :, :, 0] * 255), mode='L').resize((600, 800), Image.BICUBIC)
+
     plt.imshow(sal)
-    save_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
+    save_path = 'C:/Pedro/ISEP/PESTI/frontend/src/images/casnet.jpg'
     plt.savefig(save_path)
