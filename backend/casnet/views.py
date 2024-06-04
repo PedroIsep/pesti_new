@@ -83,10 +83,17 @@ def process_video(request):
                 destination.write(chunk)
 
         # Define the paths to the Python scripts
-        split_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/split.py'
-        process_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet1code.py'
+        split_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/split.py'     
         create_video_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/create_video.py'
-
+        
+        # Define the path to the Python script based on the selected option
+        if option == 'casnet1':
+            process_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet1code.py'
+        elif option == 'casnet2':
+            process_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet2code.py'
+        else:
+            return JsonResponse({'error': 'Invalid option'}, status=400)
+        
         # Verify the paths
         if not os.path.exists(video_path):
             return JsonResponse({'error': f'Video path does not exist: {video_path}'}, status=500)
