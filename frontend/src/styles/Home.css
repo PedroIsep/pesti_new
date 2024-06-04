@@ -75,6 +75,11 @@ div {
     border: 1px solid #000;
 }
 
+.centered-text {
+    text-align: center;
+    font-size: 12px;
+}
+
 #imageContainer, #emptyContainer {
     width: 45%;
     height: 45%;

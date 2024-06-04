@@ -251,7 +251,12 @@ function Home() {
                 <br />
                 <input type="submit" value="Submit"></input>
             </form>
+            
+            <div style={{ borderBottom: "4px solid black", margin: "20px auto", width: "90%" }}></div>
 
+                <h2 class="centered-text">Página desenvolvida por: Pedro Santos - 1200690@isep.ipp.pt</h2>
+
+            
             {showDialog && (
                 <CustomDialog
                 message={`Tem a certeza que pretende criar o mapa de saliências?`}
