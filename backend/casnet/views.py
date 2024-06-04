@@ -84,7 +84,7 @@ def process_video(request):
 
         # Define the paths to the Python scripts
         split_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/split.py'
-        process_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet2code.py'
+        process_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/casnet1code.py'
         create_video_script_path = 'C:/Pedro/ISEP/PESTI/backend/casnet/create_video.py'
 
         # Verify the paths

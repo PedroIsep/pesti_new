@@ -5,6 +5,7 @@
 
 
 import os
+import sys
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID" 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import glob
@@ -104,7 +105,7 @@ model.load_weights('C:/Pedro/ISEP/PESTI/backend/casnet/salicon_generator_sigmoid
 # In[15]:
 
 
-img = 'C:/Pedro/ISEP/PESTI/backend/casnet/00000.jpg'
+img = sys.argv[1]
 x1 = np.expand_dims(get_image_data(img, (600, 800), space="rgb"), axis=0)
 x2 = np.expand_dims(get_image_data(img, (300, 400), space="rgb"), axis=0)
 res = model.predict([x1, x2])
