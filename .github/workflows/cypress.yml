@@ -35,9 +35,9 @@ jobs:
           nohup npm run dev &  
       
       - name: Wait for servers to be ready
-        uses: jakejarvis/wait-action
+        uses: jakejarvis/wait-action@master
         with:
-          timeout: 120 # Adjust timeout as necessary
+          time: 120 # Adjust timeout as necessary
           url: 'http://localhost:3000' # React server
           url1: 'http://localhost:8000' # Django server
 
