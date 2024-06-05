@@ -22,9 +22,6 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Build the frontend
-        run: npm run build
-
       - name: Start Django server
         run: |
           source pesti/bin/activate
