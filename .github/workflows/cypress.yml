@@ -35,7 +35,7 @@ jobs:
           nohup npm run dev &  
       
       - name: Wait for servers to be ready
-        uses: jakejarvis/wait-action@v1
+        uses: jakejarvis/wait-action
         with:
           timeout: 120 # Adjust timeout as necessary
           url: 'http://localhost:3000' # React server
