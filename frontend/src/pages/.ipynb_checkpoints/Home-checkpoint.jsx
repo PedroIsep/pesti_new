@@ -230,7 +230,9 @@ function Home() {
                     </video>
                 )}
             </div>
-
+            
+            <div className="break"></div> 
+            
             <div className="ProgressBar">
                     <Progressbar isRunning={isRunning} />
             </div>

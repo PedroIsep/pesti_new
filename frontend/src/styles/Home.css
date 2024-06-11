@@ -84,6 +84,7 @@ div {
     width: 45%;
     height: 45%;
     float: left;
+    text-align: center;
 }
 
 .break {
@@ -99,9 +100,18 @@ div {
   width: 90%;
 }
 
-#progressbar{
+.progressbar{
     display: block;
-    margin-left: 50%;
-    padding: 10px;
-    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
+
+.container img {
+    display: inline-block;
+}
+
+.container video {
+    display: inline-block;
+}
+
