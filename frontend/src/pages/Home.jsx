@@ -3,7 +3,9 @@ import axios from 'axios';
 import api from "../api";
 import Note from "../components/Note"
 import "../styles/Home.css"
+import "../styles/ProgressBar.css"
 import isrcImage from "../images/isrc.jpg";
+import Progressbar from "../components/ProgressBar";
 import CustomDialog from "../components/CustomDialog";
 import casnetImage from "../images/created_image.jpg";
 import createdVideo from "../images/created_video.mp4";
@@ -20,7 +22,7 @@ function Home() {
     const [showEmptyContainer, setShowEmptyContainer] = useState(false);
     const [videoUrl, setVideoUrl] = useState(null);
     const [backendEnd, setbackendEnd] = useState(false);
-
+    const [isRunning, setIsRunning] = useState(false);
 
     useEffect(() => {
         getNotes();
@@ -104,11 +106,13 @@ function Home() {
     //Sending chosen image or video to the backend for processing
     const handleShowMedia = async () => {
         setShowEmptyContainer(true);
-
+        setIsRunning(false);
+        
         try {
             const formData = new FormData();
             if (selectedImage) {
                 formData.append('image', selectedImage);
+                setIsRunning(true);
             } else if (videoUrl) {
                 const response = await fetch(videoUrl);
                 const blob = await response.blob();
@@ -126,11 +130,13 @@ function Home() {
             
             if (response.status === 200){
                 setbackendEnd(true);
+                setIsRunning(false);
             }
         } catch (error) {
             console.error('Error uploading the media:', error);
             setOutputImage(null);
             setOutputVideo(null);
+            setIsRunning(false);
         }
     };
 
@@ -162,10 +168,12 @@ function Home() {
 
     return (
         <div>
-            <img src={isrcImage} alt="ISRC logo" ></img>
+            <div className="center">
+                <img src={isrcImage} alt="ISRC logo" ></img>
+            </div>
             
             <div style={{ textAlign: "right" }}>
-                <a href="https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/logout">Logout</a>
+                <a href="http://localhost:5173/logout">Logout</a>
             </div>
 
             <div style={{ textAlign: "center" }}>
@@ -223,6 +231,10 @@ function Home() {
                 )}
             </div>
 
+            <div className="ProgressBar">
+                    <Progressbar isRunning={isRunning} />
+            </div>
+            
             <div className="break"></div> 
 
             <div style={{ textAlign: "center", marginTop: "20px" }}>
@@ -254,7 +266,7 @@ function Home() {
             
             <div style={{ borderBottom: "4px solid black", margin: "20px auto", width: "90%" }}></div>
 
-                <h2 class="centered-text">Página desenvolvida por: Pedro Santos - 1200690@isep.ipp.pt</h2>
+                <h2 className="centered-text">Página desenvolvida por: Pedro Santos - 1200690@isep.ipp.pt</h2>
 
             
             {showDialog && (

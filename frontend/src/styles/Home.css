@@ -91,3 +91,17 @@ div {
   height: 20px;
   clear: both;
 }
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+#progressbar{
+    display: block;
+    margin-left: 50%;
+    padding: 10px;
+    box-sizing: border-box;
+}
