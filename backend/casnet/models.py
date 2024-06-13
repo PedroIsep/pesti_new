@@ -18,3 +18,15 @@ class Image(models.Model):
         
     def __str__(self):
         return self
+
+class Video(models.Model):
+    name = models.CharField(max_length=100)
+    video = models.FileField(upload_to='videos/')
+    author = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name="videos"
+    )
+    
+    def __str__(self):
+        return self

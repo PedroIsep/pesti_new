@@ -84,6 +84,7 @@ def process_image(request):
 @csrf_exempt
 def process_video(request):
     if request.method == 'POST':
+        user_id = request.POST.get('user', '')
         video = request.FILES['video']
         option = request.POST.get('option', '')
 
@@ -160,10 +161,18 @@ def process_video(request):
                 capture_output=True,
                 text=True 
             )
-            
+                      
             # Copy video to final destination
             shutil.copy('created_video.mp4', 'C:/Pedro/ISEP/PESTI/frontend/src/images/created_video.mp4')
             shutil.copy('created_video.mp4', 'C:/Pedro/ISEP/PESTI/frontend/src/assets/created_video.mp4')
+            
+                        # Save the video 
+            video_instance = Video(
+                    name=video,
+                    author=author,
+                    video='C:/Pedro/ISEP/PESTI/frontend/src/assets/created_video.mp4'
+            )
+            video_instance.save()
             
             return JsonResponse({'success': True})
 

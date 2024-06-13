@@ -6,8 +6,8 @@ from django.contrib.auth import get_user_model
 import subprocess
 import os, sys
 import shutil
-from .models import Image
-from .serializers import ImageSerializer
+from .models import Image, Video
+from .serializers import ImageSerializer, VideoSerializer
 
 
 @csrf_exempt
@@ -84,6 +84,7 @@ def process_image(request):
 @csrf_exempt
 def process_video(request):
     if request.method == 'POST':
+        user_id = request.POST.get('user', '')
         video = request.FILES['video']
         option = request.POST.get('option', '')
 
@@ -160,10 +161,20 @@ def process_video(request):
                 capture_output=True,
                 text=True 
             )
-            
+                      
             # Copy video to final destination
             shutil.copy('created_video.mp4', 'C:/Pedro/ISEP/PESTI/frontend/src/images/created_video.mp4')
             shutil.copy('created_video.mp4', 'C:/Pedro/ISEP/PESTI/frontend/src/assets/created_video.mp4')
+            
+            # Save the video
+            User = get_user_model()
+            author = User.objects.get(pk=user_id)
+            video_instance = Video(
+                    name=video,
+                    author=author,
+                    video='C:/Pedro/ISEP/PESTI/frontend/src/assets/created_video.mp4'
+            )
+            video_instance.save()
             
             return JsonResponse({'success': True})
 
