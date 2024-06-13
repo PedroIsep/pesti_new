@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="module">
+import RefreshRuntime from "/@react-refresh"
+RefreshRuntime.injectIntoGlobalHook(window)
+window.$RefreshReg$ = () => {}
+window.$RefreshSig$ = () => (type) => type
+window.__vite_plugin_react_preamble_installed__ = true
+</script>
+
+    <script type="module" src="Attention%20Models_ficheiros/client"></script>
+
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="http://localhost:5173/vite.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attention Models</title>
+  <style type="text/css" data-vite-dev-id="C:/Pedro/ISEP/PESTI/frontend/src/styles/Form.css">.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+  }
+
+
+  
+  .form-input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .form-button {
+    width: 95%;
+    padding: 10px;
+    margin: 20px 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .form-button:hover {
+    background-color: #0056b3;
+  }
+</style><style type="text/css" data-vite-dev-id="C:/Pedro/ISEP/PESTI/frontend/src/styles/LoadingIndicator.css">.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loader {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }</style><style type="text/css" data-vite-dev-id="C:/Pedro/ISEP/PESTI/frontend/src/styles/Note.css">.note-container {
+    padding: 10px;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .note-title {
+    color: #333;
+  }
+  
+  .note-content {
+    color: #666;
+  }
+  
+  .note-date {
+    color: #999;
+    font-size: 0.8rem;
+  }
+  
+  .delete-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .delete-button:hover {
+    background-color: #d32f2f; /* Darker red */
+  }</style><style type="text/css" data-vite-dev-id="C:/Pedro/ISEP/PESTI/frontend/src/styles/Home.css">/* Container for the whole page */
+div {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Styles for the notes section */
+  .notes-section {
+    margin-bottom: 2rem;
+  }
+  
+  .notes-section h2 {
+    color: #333;
+    font-size: 24px;
+  }
+  
+  /* Styles for individual notes - assuming your Note component has some container element */
+  .note {
+    background-color: #f9f9f9;
+    border-left: 5px solid #007bff;
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+  
+  /* Styles for the form section */
+  form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: auto;
+  }
+  
+  form h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  form label {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  form input,
+  form textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  form input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  form input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  .container {
+    width: 45%;
+    margin: 25px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #000;
+}
+
+.centered-text {
+    text-align: center;
+    font-size: 12px;
+}
+
+#imageContainer, #emptyContainer {
+    width: 45%;
+    height: 45%;
+    float: left;
+    text-align: center;
+}
+
+.break {
+  width: 100%;
+  height: 20px;
+  clear: both;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.progressbar{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.container img {
+    display: inline-block;
+}
+
+.container video {
+    display: inline-block;
+}
+
+</style><style type="text/css" data-vite-dev-id="C:/Pedro/ISEP/PESTI/frontend/src/styles/ProgressBar.css">.App{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10%;
+}
+
+.progressbar{
+    position: relative;
+	overflow: hidden;
+	width: 350px;
+	height: 35px;
+	border-radius: 5px;
+	background-color: #e0e0e0;
+}
+
+.progressPercent{
+	font-weight: 600;
+	font-family:'Franklin Gothic Medium';
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	color: #eee;
+	text-shadow: -1px 0 #555, 0 1px #555, 1px 0 #555, 0 -1px #555;
+}
+
+
+</style><style type="text/css" data-vite-dev-id="C:/Pedro/ISEP/PESTI/frontend/src/styles/CustomDialog.css">.custom-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999; /* Garante que a caixa de diálogo esteja na parte superior */
+  }
+  
+  .custom-dialog h2 {
+    margin-top: 0;
+    text-align: center;
+  }
+  
+  .custom-dialog p {
+    margin-bottom: 20px;
+  }
+  
+  .custom-dialog .button-container {
+    text-align: center;
+  }
+  
+  .custom-dialog button {
+    margin-right: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .custom-dialog button:hover {
+    background-color: #0056b3;
+  }</style></head>
+  <body>
+    <div id="root"><div><div class="center"><img src="Attention%20Models_ficheiros/isrc.jpg" alt="ISRC logo"></div><div style="text-align: right;"><a href="http://localhost:5173/logout">Logout</a></div><div style="text-align: center;"><br><label for="image" style="display: block; text-align: center;">Escolha uma imagem ou um video para a criação do mapa de saliências:</label><input type="file" id="imageInput" style="margin: 0px auto; display: none;" accept="image/*"><button>Escolher Imagem</button> <input type="file" id="videoInput" style="margin: 0px auto; display: none;" accept="video/*"><button type="button">Escolher Vídeo</button></div><div class="break"></div><div class="centered-container combo-box-container"><label for="casnet" style="display: block; text-align: center;">Escolha um modelo para a criação do mapa de saliências:</label><select id="casnet" name="casnet" style="margin: 0px auto; display: block;"><option value="">Selecione um modelo...</option><option value="casnet1" selected="selected">CASNET 1</option><option value="casnet2">CASNET 2</option></select></div><div class="break"></div><div id="imageContainer" class="container"><img src="blob:http://localhost:5173/a44216b1-5e16-4534-971e-d495b1d05275" alt="Selected Image" style="max-width: 100%;"></div><div id="emptyContainer" class="container"><img src="Attention%20Models_ficheiros/created_image.jpg" alt="Output Image" style="max-width: 100%;"></div><div class="break"></div><div class="ProgressBar"><div><div class="progressbar" style="visibility: hidden;"><div style="height: 100%; width: 100%; background-color: navy; transition: width 0.1s;"></div><span class="progressPercent">100%</span></div></div></div><div class="break"></div><div style="text-align: center; margin-top: 20px;"><button style="width: 50%;">Criar mapa de saliências</button></div><div style="border-bottom: 4px solid black; margin: 20px auto; width: 90%;"></div><div><h2>Notas</h2></div><h2>Criar uma Nota</h2><form><label for="content">Conteudo:</label><br><textarea id="content" name="content" required=""></textarea><br><input type="submit" value="Submit"></form><div style="border-bottom: 4px solid black; margin: 20px auto; width: 90%;"></div><h2 class="centered-text">Página desenvolvida por: Pedro Santos - 1200690@isep.ipp.pt</h2></div></div>
+    <script type="module" src="Attention%20Models_ficheiros/main.jsx"></script>
+  
+
+<script>mendeleyWebImporter = {
+  downloadPdfs(e,t) { return this._call('downloadPdfs', [e,t]); },
+  open() { return this._call('open', []); },
+  setLoginToken(e) { return this._call('setLoginToken', [e]); },
+  _call(methodName, methodArgs) {
+    const id = Math.random();
+    window.postMessage({ id, token: '0.33633021158685783', methodName, methodArgs }, 'http://localhost:5173');
+    return new Promise(resolve => {
+      const listener = window.addEventListener('message', event => {
+        const data = event.data;
+        if (typeof data !== 'object' || !('result' in data) || data.id !== id) return;
+        window.removeEventListener('message', listener);
+        resolve(data.result);
+      });
+    });
+  }
+};</script></body></html>

@@ -8,7 +8,7 @@ export default function Progressbar({ isRunning }) {
         if (isRunning && filled < 100) {
             interval = setInterval(() => {
                 setFilled(prev => Math.min(prev + 1, 100));
-            }, 100); // 250ms interval for 25 seconds duration
+            }, 100); // 100ms interval for 25 seconds duration
         } else if (!isRunning) {
             clearInterval(interval);
         }

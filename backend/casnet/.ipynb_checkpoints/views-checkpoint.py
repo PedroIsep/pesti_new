@@ -2,13 +2,18 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.contrib.auth import get_user_model
 import subprocess
 import os, sys
 import shutil
+from .models import Image
+from .serializers import ImageSerializer
+
 
 @csrf_exempt
 def process_image(request):
     if request.method == 'POST':
+        user_id = request.POST.get('user', '')
         image = request.FILES['image']
         option = request.POST.get('option', '')
 
@@ -34,6 +39,8 @@ def process_image(request):
 
         # Execute the Python script
         try:
+            User = get_user_model()
+            author = User.objects.get(pk=user_id)
             
             result = subprocess.run(
                 ['python', script_path, image_path],
@@ -44,6 +51,17 @@ def process_image(request):
 
             # copy output image to final folder
             output_image = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
+            
+            #save to database
+            if os.path.exists(output_image):
+                with open(output_image, 'rb') as f:
+                    processed_image_instance = Image(
+                        name=image,
+                        author=author,
+                        image=output_image
+                    )
+                    processed_image_instance.save()
+                    
             output_path = 'C:/Pedro/ISEP/PESTI/frontend/src/images/created_image.jpg'
             output_path2 = 'C:/Pedro/ISEP/PESTI/frontend/src/assets/created_image.jpg'
             shutil.copy(output_image, output_path)
@@ -53,6 +71,7 @@ def process_image(request):
             os.remove(image_path)
             os.remove(output_image)
             
+            serializer = ImageSerializer(processed_image_instance)
             return JsonResponse({'success': True})
 
         except subprocess.CalledProcessError as e:

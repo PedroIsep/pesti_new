@@ -28,7 +28,7 @@ function Home() {
         getNotes();
     }, []);
 
-    
+
     //Get notes from database
     const getNotes = () => {
         api
@@ -36,7 +36,6 @@ function Home() {
             .then((res) => res.data)
             .then((data) => {
                 setNotes(data);
-                console.log(data);
             })
             .catch((err) => alert(err));
     };
@@ -119,6 +118,7 @@ function Home() {
                 formData.append('video', new File([blob], 'video.mp4', { type: 'video/mp4' }));
             }
             formData.append('option', selectedOption);
+            formData.append('user', 1); // ainda não está ok
 
             const endpoint = selectedImage ? 'process-image' : 'process-video';
 
