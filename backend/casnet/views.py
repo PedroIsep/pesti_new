@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 import subprocess
 import os, sys
 import shutil
+import base64
 from .models import Image, Video
 from .serializers import ImageSerializer, VideoSerializer
 
@@ -51,28 +52,32 @@ def process_image(request):
 
             # copy output image to final folder
             output_image = 'C:/Pedro/ISEP/PESTI/backend/casnet/temp.jpg'
-            
-            #save to database
-            if os.path.exists(output_image):
-                with open(output_image, 'rb') as f:
-                    processed_image_instance = Image(
-                        name=image,
-                        author=author,
-                        image=output_image
-                    )
-                    processed_image_instance.save()
-                    
             output_path = 'C:/Pedro/ISEP/PESTI/frontend/src/images/created_image.jpg'
             output_path2 = 'C:/Pedro/ISEP/PESTI/frontend/src/assets/created_image.jpg'
             shutil.copy(output_image, output_path)
             shutil.copy(output_image, output_path2)
 
+            
+            #save to database
+            if os.path.exists(output_image):
+                with open(output_image, 'rb') as f:
+                    binary_image_data = f.read()
+                    processed_image_instance = Image(
+                        name=image.name,
+                        author=author,
+                        image=binary_image_data
+                    )
+                    processed_image_instance.save()
+            
+            # Encode the binary image data to base64
+            base64_image = base64.b64encode(binary_image_data).decode('utf-8')
+            
             # Delete the temporary files
             os.remove(image_path)
             os.remove(output_image)
             
             serializer = ImageSerializer(processed_image_instance)
-            return JsonResponse({'success': True})
+            return JsonResponse({'image': base64_image, **serializer.data})
 
         except subprocess.CalledProcessError as e:
             return JsonResponse({'error': str(e)}, status=500)

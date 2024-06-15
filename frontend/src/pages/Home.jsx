@@ -134,10 +134,11 @@ function Home() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            
+                        
             if (response.status === 200){
-                //setbackendEnd(true);
-                setOutputImage(response.data.image);
+                setbackendEnd(true);
+                //const base64Image = response.data.image;
+                //setOutputImage(`data:image/jpeg;base64,${base64Image}`);
                 setIsRunning(false);
             }
         } catch (error) {

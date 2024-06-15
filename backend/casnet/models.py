@@ -8,7 +8,7 @@ def get_default_author_id():
 
 class Image(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='images/')
+    image = models.BinaryField()
     author = models.ForeignKey(
         User, 
         on_delete=models.CASCADE, 
