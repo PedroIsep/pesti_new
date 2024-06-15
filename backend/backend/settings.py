@@ -13,9 +13,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
-import os
+from django.db.backends.mysql.base import DatabaseWrapper
+import os, sys
 
 load_dotenv()
+DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -97,14 +99,22 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'OPTIONS': {
-            'timeout': 30,  # Timeout set to 30 seconds
-        }
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": 'sql11704261',
+        "USER": 'sql11704261',
+        "PASSWORD": 'gMQfD3Z3Vv',
+        "HOST": 'sql11.freemysqlhosting.net',
+        "PORT": '3306',
     }
 }
 
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',  # Usar um banco de dados em memória para testes
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
