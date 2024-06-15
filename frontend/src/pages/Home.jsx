@@ -23,11 +23,12 @@ function Home() {
     const [videoUrl, setVideoUrl] = useState(null);
     const [backendEnd, setbackendEnd] = useState(false);
     const [isRunning, setIsRunning] = useState(false);
-
+    const [authors, setAuthors] = useState([]);
+    const [username, setUsername] = useState('');
+    
     useEffect(() => {
         getNotes();
     }, []);
-
 
     //Get notes from database
     const getNotes = () => {
@@ -36,8 +37,11 @@ function Home() {
             .then((res) => res.data)
             .then((data) => {
                 setNotes(data);
+                const authorsList = data.map(note => note.author);
+                setAuthors(authorsList);
             })
             .catch((err) => alert(err));
+        
     };
 
     //Delete notes related to images
@@ -106,19 +110,22 @@ function Home() {
     const handleShowMedia = async () => {
         setShowEmptyContainer(true);
         setIsRunning(false);
+        let step = 1;
         
         try {
             const formData = new FormData();
             if (selectedImage) {
                 formData.append('image', selectedImage);
-                setIsRunning(true);
+                step = 9.9;
             } else if (videoUrl) {
                 const response = await fetch(videoUrl);
                 const blob = await response.blob();
                 formData.append('video', new File([blob], 'video.mp4', { type: 'video/mp4' }));
+                step =1;
             }
             formData.append('option', selectedOption);
-            formData.append('user', 1); // ainda não está ok
+            formData.append('user', authors[0]);
+            setIsRunning(true);
 
             const endpoint = selectedImage ? 'process-image' : 'process-video';
 
@@ -234,7 +241,7 @@ function Home() {
             <div className="break"></div> 
             
             <div className="ProgressBar">
-                    <Progressbar isRunning={isRunning} />
+                    <Progressbar isRunning={isRunning} step={selectedImage ? 9.9 : 1}/>
             </div>
             
             <div className="break"></div> 
