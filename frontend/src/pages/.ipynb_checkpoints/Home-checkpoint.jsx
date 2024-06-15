@@ -114,8 +114,6 @@ function Home() {
         
         try {
             const formData = new FormData();
-            
-            
             if (selectedImage) {
                 formData.append('image', selectedImage);
                 step = 9.9;
@@ -138,7 +136,8 @@ function Home() {
             });
             
             if (response.status === 200){
-                setbackendEnd(true);
+                //setbackendEnd(true);
+                setOutputImage(response.data.image);
                 setIsRunning(false);
             }
         } catch (error) {

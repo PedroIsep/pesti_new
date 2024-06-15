@@ -136,7 +136,8 @@ function Home() {
             });
             
             if (response.status === 200){
-                setbackendEnd(true);
+                //setbackendEnd(true);
+                setOutputImage(response.data.image);
                 setIsRunning(false);
             }
         } catch (error) {
