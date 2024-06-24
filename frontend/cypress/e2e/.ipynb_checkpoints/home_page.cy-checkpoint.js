@@ -1,6 +1,6 @@
 describe('template spec', () => {
   it('passes', () => {
-    cy.visit('https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/login')
+    cy.visit('https://9f9683d8-14d0-4581-b2f7-393d1ea2e5b2.e1-eu-north-azure.choreoapps.dev/login')
       
     cy.get('img')
 
@@ -35,8 +35,8 @@ describe('template spec', () => {
     cy.get('[style="border-bottom: 4px solid black; margin: 20px auto; width: 90%;"]')
 
     //Check labels for notes
-    cy.get(':nth-child(12) > h2').contains("Notas")
-    cy.get(':nth-child(13)').contains("Criar uma Nota")
+    cy.get(':nth-child(14) > h2').contains("Notas")
+    cy.get(':nth-child(15)').contains("Criar uma Nota")
 
     //CHeck form to insert note
     cy.get('form')

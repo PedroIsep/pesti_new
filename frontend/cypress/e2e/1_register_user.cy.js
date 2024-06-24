@@ -1,6 +1,6 @@
 describe('template spec', () => {
   it('passes', () => {
-    cy.visit('https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/register')
+    cy.visit('https://9f9683d8-14d0-4581-b2f7-393d1ea2e5b2.e1-eu-north-azure.choreoapps.dev/register')
     
     // Confirm that the image is loaded
     cy.get('img').should('be.visible')

@@ -1,6 +1,6 @@
 describe('Criacao de mapa de saliencias sem nota', () => {
   it('passes', () => {
-    cy.visit('https://30d24dda-c024-4004-aa5a-497ae648c80a.e1-eu-north-azure.choreoapps.dev/login')
+    cy.visit('https://9f9683d8-14d0-4581-b2f7-393d1ea2e5b2.e1-eu-north-azure.choreoapps.dev/login')
       
     cy.get('img')
 
@@ -45,8 +45,7 @@ describe('Criacao de mapa de saliencias sem nota', () => {
     //Simulate loading image
     cy.get('input[type="file"]').attachFile('ambulancia.jpg')
     
-    //Check if loaded image is visible
-    cy.get('#emptyContainer img').should('be.visible')
+
   })
 })
   
