@@ -124,7 +124,11 @@ function Home() {
                 step =1;
             }
             formData.append('option', selectedOption);
-            formData.append('user', authors[0]);
+            if (authors[0] !== undefined) {
+                formData.append('user', authors[0]);
+            } else {
+                formData.append('user', 1);
+            }
             setIsRunning(true);
 
             const endpoint = selectedImage ? 'process-image' : 'process-video';
